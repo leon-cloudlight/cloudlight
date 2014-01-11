@@ -1,0 +1,13 @@
+# vim: tabstop=4 shiftwidth=4 softtabstop=4
+
+# Copyright 2014 CloudLight, Inc
+# All Rights Reserved.
+
+import sys
+
+sys.path.append('..')
+
+from mars.server import main
+
+if __name__ == "__main__":
+    sys.exit(main())
