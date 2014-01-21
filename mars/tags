@@ -4,26 +4,61 @@
 !_TAG_PROGRAM_NAME	Exuberant Ctags	//
 !_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
 !_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+AbnormalityIndex	core/index/infra_index.py	/^class AbnormalityIndex(InfraIndex):$/;"	c
 BaseLoggerAdapter	common/log.py	/^class BaseLoggerAdapter(logging.LoggerAdapter):$/;"	c
 CONF	common/log.py	/^CONF = cfg.CONF$/;"	v
 ColorHandler	common/log.py	/^class ColorHandler(logging.StreamHandler):$/;"	c
+ComputePipe	engines/dap/compute_pipe.py	/^class ComputePipe:$/;"	c
 ContextAdapter	common/log.py	/^class ContextAdapter(BaseLoggerAdapter):$/;"	c
 ContextFormatter	common/log.py	/^class ContextFormatter(logging.Formatter):$/;"	c
+DataAnalyticPipeline	engines/dap/pipeline.py	/^class DataAnalyticPipeline(object):$/;"	c
+DataAnalyticPipelineManager	engines/dap/pipeline_manager.py	/^class DataAnalyticPipelineManager(object):$/;"	c
+DataChannelHandler	engines/data_channel.py	/^class DataChannelHandler:$/;"	c
 DeprecatedConfig	common/log.py	/^class DeprecatedConfig(Exception):$/;"	c
+HealthIndex	core/index/infra_index.py	/^class HealthIndex(InfraIndex):$/;"	c
+INFRA	common/constants.py	/^INFRA = 'mars_infrastructure'$/;"	v
+InfraIndex	core/index/infra_index.py	/^class InfraIndex:$/;"	c
 Invalid	common/exception.py	/^class Invalid(MarsException):$/;"	c
 InvalidConfigurationOption	common/exception.py	/^class InvalidConfigurationOption(MarsException):$/;"	c
+InvalidValue	common/exception.py	/^class InvalidValue(MarsException):$/;"	c
 JSONFormatter	common/log.py	/^class JSONFormatter(logging.Formatter):$/;"	c
 LEVEL_COLORS	common/log.py	/^    LEVEL_COLORS = {$/;"	v	class:ColorHandler
+LOG	common/config.py	/^LOG = logging.getLogger(__name__)$/;"	v
+LOG	core/index/infra_index.py	/^LOG = logging.getLogger(__name__)$/;"	v
+LOG	engines/dap/compute_pipe.py	/^LOG = logging.getLogger(__name__)$/;"	v
+LOG	engines/dap/pipeline.py	/^LOG = logging.getLogger(__name__)$/;"	v
+LOG	engines/dap/pipeline_manager.py	/^LOG = logging.getLogger(__name__)$/;"	v
 LOG	engines/data_analytic.py	/^LOG = logging.getLogger(__name__)$/;"	v
+LOG	engines/data_channel.py	/^LOG = logging.getLogger(__name__)$/;"	v
 LOG	engines/engine.py	/^LOG = logging.getLogger(__name__)$/;"	v
 LOG_FORMAT	tools/data_generator.py	/^LOG_FORMAT = ('%(levelname) s %(asctime)s %(name) -10s [%(funcName) '$/;"	v
 LazyAdapter	common/log.py	/^class LazyAdapter(BaseLoggerAdapter):$/;"	c
 LogConfigError	common/log.py	/^class LogConfigError(Exception):$/;"	c
+MSG_EXCHANGE_DERIVED_DATA_ON_MARS	common/constants.py	/^MSG_EXCHANGE_DERIVED_DATA_ON_MARS = 'mars_derived_data_exchange'$/;"	v
+MSG_QUEUE_DERIVED_DATA_ANALYTIC	common/constants.py	/^MSG_QUEUE_DERIVED_DATA_ANALYTIC = 'mars_data_analytic_queue'$/;"	v
 MarsDataAnalyticService	engines/data_analytic.py	/^class MarsDataAnalyticService:$/;"	c
 MarsException	common/exception.py	/^class MarsException(Exception):$/;"	c
+MarsMessageError	common/exception.py	/^class MarsMessageError(MarsException):$/;"	c
+MarsPipelineError	common/exception.py	/^class MarsPipelineError(MarsException):$/;"	c
 NullHandler	common/log.py	/^    NullHandler = logging.NullHandler$/;"	v
 NullHandler	common/log.py	/^    class NullHandler(logging.Handler):$/;"	c
+OfflineTimerPipeline	engines/dap/pipeline.py	/^class OfflineTimerPipeline(DataAnalyticPipeline):$/;"	c
+PIPELINE_STATE_ENTRY	common/constants.py	/^PIPELINE_STATE_ENTRY = 'entry'$/;"	v
+PIPELINE_STATE_EXIT	common/constants.py	/^PIPELINE_STATE_EXIT = 'exit'$/;"	v
+PIPELINE_STATE_FREE	common/constants.py	/^PIPELINE_STATE_FREE = 'free'$/;"	v
+PIPELINE_STATE_IN_USE	common/constants.py	/^PIPELINE_STATE_IN_USE = 'in_use'$/;"	v
+PlutoMessageError	common/exception.py	/^class PlutoMessageError(MarsException):$/;"	c
+RT_DATA	common/constants.py	/^RT_DATA = 'mars_rt_data'$/;"	v
+RT_EVENT	common/constants.py	/^RT_EVENT = 'mars_rt_event'$/;"	v
+RT_ROLLUP	common/constants.py	/^RT_ROLLUP = 'mars_rt_rollup'$/;"	v
+RiskIndex	core/index/infra_index.py	/^class RiskIndex(InfraIndex):$/;"	c
+RuntimeDataPipeline	engines/dap/pipeline.py	/^class RuntimeDataPipeline(DataAnalyticPipeline):$/;"	c
+RuntimeEventPipeline	engines/dap/pipeline.py	/^class RuntimeEventPipeline(DataAnalyticPipeline):$/;"	c
+RuntimeRollupPipeline	engines/dap/pipeline.py	/^class RuntimeRollupPipeline(DataAnalyticPipeline):$/;"	c
+StressIndex	core/index/infra_index.py	/^class StressIndex(InfraIndex):$/;"	c
+TIMER	common/constants.py	/^TIMER = 'mars_timer'$/;"	v
 VERSION	common/config.py	/^VERSION = "0.0.1"$/;"	v
+WorkloadIndex	core/index/infra_index.py	/^class WorkloadIndex(InfraIndex):$/;"	c
 WritableLogger	common/log.py	/^class WritableLogger(object):$/;"	c
 _DEFAULT_LOG_DATE_FORMAT	common/log.py	/^_DEFAULT_LOG_DATE_FORMAT = "%Y-%m-%d %H:%M:%S"$/;"	v
 _FATAL_EXCEPTION_FORMAT_ERRORS	common/exception.py	/^_FATAL_EXCEPTION_FORMAT_ERRORS = False$/;"	v
@@ -35,25 +70,54 @@ __init__	common/log.py	/^    def __init__(self, logger, level=logging.INFO):$/;"
 __init__	common/log.py	/^    def __init__(self, logger, project_name, version_string):$/;"	m	class:ContextAdapter
 __init__	common/log.py	/^    def __init__(self, msg):$/;"	m	class:DeprecatedConfig
 __init__	common/log.py	/^    def __init__(self, name='unknown', version='unknown'):$/;"	m	class:LazyAdapter
+__init__	core/index/infra_index.py	/^    def __init__(self):$/;"	m	class:AbnormalityIndex
+__init__	core/index/infra_index.py	/^    def __init__(self):$/;"	m	class:HealthIndex
+__init__	core/index/infra_index.py	/^    def __init__(self):$/;"	m	class:InfraIndex
+__init__	core/index/infra_index.py	/^    def __init__(self):$/;"	m	class:RiskIndex
+__init__	core/index/infra_index.py	/^    def __init__(self):$/;"	m	class:StressIndex
+__init__	core/index/infra_index.py	/^    def __init__(self):$/;"	m	class:WorkloadIndex
+__init__	engines/dap/compute_pipe.py	/^    def __init__(self, index):$/;"	m	class:ComputePipe
+__init__	engines/dap/pipeline.py	/^    def __init__(self, layer=constants.INFRA):$/;"	m	class:OfflineTimerPipeline
+__init__	engines/dap/pipeline.py	/^    def __init__(self, layer=constants.INFRA):$/;"	m	class:RuntimeDataPipeline
+__init__	engines/dap/pipeline.py	/^    def __init__(self, layer=constants.INFRA):$/;"	m	class:RuntimeEventPipeline
+__init__	engines/dap/pipeline.py	/^    def __init__(self, layer=constants.INFRA):$/;"	m	class:RuntimeRollupPipeline
+__init__	engines/dap/pipeline.py	/^    def __init__(self, pipeline_type, layer=constants.INFRA):$/;"	m	class:DataAnalyticPipeline
+__init__	engines/dap/pipeline_manager.py	/^    def __init__(self, layer=constants.INFRA):$/;"	m	class:DataAnalyticPipelineManager
 __init__	engines/data_analytic.py	/^    def __init__(self):$/;"	m	class:MarsDataAnalyticService
+__init__	engines/data_channel.py	/^    def __init__(self, service):$/;"	m	class:DataChannelHandler
 __str__	common/log.py	/^    def __str__(self):$/;"	m	class:LogConfigError	file:
+_create_instance	engines/dap/pipeline_manager.py	/^    def _create_instance(cls, layer=constants.INFRA):$/;"	m	class:DataAnalyticPipelineManager
 _create_logging_excepthook	common/log.py	/^def _create_logging_excepthook(product_name):$/;"	f
 _dictify_context	common/log.py	/^def _dictify_context(context):$/;"	f
 _find_facility_from_conf	common/log.py	/^def _find_facility_from_conf():$/;"	f
 _get_binary_name	common/log.py	/^def _get_binary_name():$/;"	f
 _get_log_file_path	common/log.py	/^def _get_log_file_path(binary=None):$/;"	f
+_instance_infra	engines/dap/pipeline_manager.py	/^    _instance_infra = None$/;"	v	class:DataAnalyticPipelineManager
 _load_log_config	common/log.py	/^def _load_log_config(log_config):$/;"	f
 _loggers	common/log.py	/^_loggers = {}$/;"	v
 _setup_logging_from_conf	common/log.py	/^def _setup_logging_from_conf():$/;"	f
+add_compute_pipe	engines/dap/pipeline.py	/^    def add_compute_pipe(self, pipe):$/;"	m	class:DataAnalyticPipeline
+allocate_pipeline	engines/dap/pipeline_manager.py	/^    def allocate_pipeline(self, pipeline_type):$/;"	m	class:DataAnalyticPipelineManager
 argParser	tools/data_generator.py	/^    argParser = argparse.ArgumentParser($/;"	v
 args	tools/data_generator.py	/^    args = argParser.parse_args()$/;"	v
+assemble_compute_pipes	engines/dap/pipeline.py	/^    def assemble_compute_pipes(self):$/;"	m	class:DataAnalyticPipeline
+assemble_compute_pipes	engines/dap/pipeline.py	/^    def assemble_compute_pipes(self):$/;"	m	class:RuntimeDataPipeline
+assemeble_compute_pipes	engines/dap/pipeline.py	/^    def assemeble_compute_pipes(self):$/;"	m	class:OfflineTimerPipeline
+assemeble_compute_pipes	engines/dap/pipeline.py	/^    def assemeble_compute_pipes(self):$/;"	m	class:RuntimeEventPipeline
+assemeble_compute_pipes	engines/dap/pipeline.py	/^    def assemeble_compute_pipes(self):$/;"	m	class:RuntimeRollupPipeline
 audit	common/log.py	/^    def audit(self, msg, *args, **kwargs):$/;"	m	class:BaseLoggerAdapter
+callback_on_data_message	engines/data_channel.py	/^    def callback_on_data_message(self, channel, method, headers, body):$/;"	m	class:DataChannelHandler
 ch	tools/data_generator.py	/^ch = logging.StreamHandler()$/;"	v
+clean	engines/data_channel.py	/^    def clean(self):$/;"	m	class:DataChannelHandler
+cleanMessageHandlers	engines/data_analytic.py	/^    def cleanMessageHandlers(self):$/;"	m	class:MarsDataAnalyticService
 cleanup	tools/data_generator.py	/^def cleanup():$/;"	f
 common_cli_opts	common/log.py	/^common_cli_opts = [$/;"	v
+compute	engines/dap/compute_pipe.py	/^    def compute(self, context, message):$/;"	m	class:ComputePipe
 core_opts	common/config.py	/^core_opts = [$/;"	v
 createEngineFactory	engines/engine.py	/^def createEngineFactory():$/;"	f
 createLock	common/log.py	/^        def createLock(self):$/;"	m	class:NullHandler
+createPipelineFactory	engines/dap/pipeline.py	/^def createPipelineFactory(pipeline_type,$/;"	f
+debug_breakpoint	common/utils.py	/^def debug_breakpoint():$/;"	f
 default	common/config.py	/^               default="amqp:\/\/guest:guest@localhost:5672\/%2f",$/;"	v
 default	common/log.py	/^                default=False,$/;"	v
 default	common/log.py	/^                default=True,$/;"	v
@@ -65,27 +129,39 @@ default	common/log.py	/^               default='LOG_USER',$/;"	v
 default	common/log.py	/^               default='[instance: %(uuid)s] ',$/;"	v
 default	common/log.py	/^               default=_DEFAULT_LOG_DATE_FORMAT,$/;"	v
 default	tools/data_generator.py	/^                           default="amqp:\/\/guest:guest@localhost:5672\/%2f",$/;"	v
-default	tools/data_generator.py	/^                           default="derived_data_exchange",$/;"	v
+default	tools/data_generator.py	/^                           default="mars_derived_data_exchange",$/;"	v
 default	tools/data_generator.py	/^                           default=0,$/;"	v
 default	tools/data_generator.py	/^                           default=1,$/;"	v
 deprecated	common/log.py	/^    def deprecated(self, msg, *args, **kwargs):$/;"	m	class:ContextAdapter
 derivedDataExchange	tools/data_generator.py	/^    derivedDataExchange = args.exch$/;"	v
-derivedDataExchange	tools/data_generator.py	/^derivedDataExchange = "derived_data_exchange"$/;"	v
+derivedDataExchange	tools/data_generator.py	/^derivedDataExchange = "mars_derived_data_exchange"$/;"	v
 derived_data_template	tools/data_generator.py	/^derived_data_template = [$/;"	v
 description	tools/data_generator.py	/^            description = "Program to generate derived data messages")$/;"	v
+dispatch_thread	engines/dap/pipeline_manager.py	/^    def dispatch_thread(self, args):$/;"	m	class:DataAnalyticPipelineManager
 emit	common/log.py	/^        def emit(self, record):$/;"	m	class:NullHandler
 engine_opts	engines/engine.py	/^engine_opts = [$/;"	v
+entry_call	engines/dap/pipeline_manager.py	/^    def entry_call(pl, msg):$/;"	f
+entry_callback	engines/dap/pipeline.py	/^    def entry_callback(self, pipeline, message):$/;"	m	class:DataAnalyticPipeline
+exit_call	engines/dap/pipeline_manager.py	/^    def exit_call(pl, pipe_result):$/;"	f
+exit_callback	engines/dap/pipeline.py	/^    def exit_callback(self, pipeline, result):$/;"	m	class:DataAnalyticPipeline
+finish	engines/dap/compute_pipe.py	/^    def finish(self, context, message):$/;"	m	class:ComputePipe
 format	common/log.py	/^    def format(self, record):$/;"	m	class:ColorHandler
 format	common/log.py	/^    def format(self, record):$/;"	m	class:ContextFormatter
 format	common/log.py	/^    def format(self, record):$/;"	m	class:JSONFormatter
 formatException	common/log.py	/^    def formatException(self, ei, strip_newlines=True):$/;"	m	class:JSONFormatter
 formatException	common/log.py	/^    def formatException(self, exc_info, record=None):$/;"	m	class:ContextFormatter
 formatter	tools/data_generator.py	/^formatter = logging.Formatter(LOG_FORMAT)$/;"	v
+free_pipeline	engines/dap/pipeline_manager.py	/^    def free_pipeline(self, pipeline):$/;"	m	class:DataAnalyticPipelineManager
 generic_log_opts	common/log.py	/^generic_log_opts = [$/;"	v
 getLazyLogger	common/log.py	/^def getLazyLogger(name='unknown', version='unknown'):$/;"	f
 getLogger	common/log.py	/^def getLogger(name='unknown', version='unknown'):$/;"	f
+get_instance	engines/dap/pipeline_manager.py	/^    def get_instance(cls, layer=constants.INFRA):$/;"	m	class:DataAnalyticPipelineManager
+get_num_of_free_pipelines	engines/dap/pipeline_manager.py	/^    def get_num_of_free_pipelines(self, pipeline_type):$/;"	m	class:DataAnalyticPipelineManager
+get_num_of_pipelines	engines/dap/pipeline_manager.py	/^    def get_num_of_pipelines(self, pipeline_type):$/;"	m	class:DataAnalyticPipelineManager
+get_state	engines/dap/pipeline.py	/^    def get_state(self):$/;"	m	class:DataAnalyticPipeline
 handle	common/log.py	/^        def handle(self, record):$/;"	m	class:NullHandler
 handlers	common/log.py	/^    def handlers(self):$/;"	m	class:ContextAdapter
+help	common/config.py	/^               help=_("AMQP URL for the broker on Pluto node")),$/;"	v
 help	common/config.py	/^               help=_("AMQP URL for the local broker on Mars node")),$/;"	v
 help	common/log.py	/^                help='Log output to standard error')$/;"	v
 help	common/log.py	/^                help='Print debugging output (set logging level to '$/;"	v
@@ -104,6 +180,14 @@ help	common/log.py	/^               help='format string to use for log messages 
 help	common/log.py	/^               help='format string to use for log messages without context'),$/;"	v
 help	common/log.py	/^               help='prefix each line of exception output with this format'),$/;"	v
 help	common/log.py	/^               help='syslog facility to receive log lines')$/;"	v
+help	engines/dap/pipeline_manager.py	/^               help=_("Num of RT data pipelines in infrastructure layer")),$/;"	v
+help	engines/dap/pipeline_manager.py	/^               help=_("Num of RT event pipelines in infrastructure layer")),$/;"	v
+help	engines/dap/pipeline_manager.py	/^               help=_("Num of offline timer pipelines in infrastructure layer")),$/;"	v
+help	engines/dap/pipeline_manager.py	/^               help=_("Num of rollup pipelines in infrastructure layer")),$/;"	v
+help	engines/dap/pipeline_manager.py	/^               help=_("Num of workers for RT data processing")),$/;"	v
+help	engines/dap/pipeline_manager.py	/^               help=_("Num of workers for RT event processing")),$/;"	v
+help	engines/dap/pipeline_manager.py	/^               help=_("Num of workers for rollup processing")),$/;"	v
+help	engines/dap/pipeline_manager.py	/^               help=_("Num of workers for timer event processing")),$/;"	v
 help	engines/engine.py	/^               help=_("The engine which is running on Mars node")),$/;"	v
 help	tools/data_generator.py	/^                           help="AMQP broker URL")$/;"	v
 help	tools/data_generator.py	/^                           help="Exchange name to publish to")$/;"	v
@@ -118,10 +202,15 @@ logging_excepthook	common/log.py	/^    def logging_excepthook(type, value, tb):$
 main	server/__init__.py	/^def main():$/;"	f
 message	common/exception.py	/^    message = _("An invalid value was provided for %(opt_name)s: "$/;"	v	class:InvalidConfigurationOption
 message	common/exception.py	/^    message = _("An unknown exception occurred.")$/;"	v	class:MarsException
+message	common/exception.py	/^    message = _("Error happend for messagebus handler with Pluto node: "$/;"	v	class:PlutoMessageError
+message	common/exception.py	/^    message = _("Error happened for messagebus handler on Mars node: "$/;"	v	class:MarsMessageError
+message	common/exception.py	/^    message = _("Error happened in event processing pipeline: %(msg)")$/;"	v	class:MarsPipelineError
+message	common/exception.py	/^    message = _("Invalid variable value: %(key) = %(value)")$/;"	v	class:InvalidValue
 message	common/log.py	/^    message = _("Fatal call to deprecated config: %(msg)s")$/;"	v	class:DeprecatedConfig
 message	common/log.py	/^    message = _('Error loading logging config %(log_config)s: %(err_msg)s')$/;"	v	class:LogConfigError
 metavar	common/log.py	/^               metavar='DATE_FORMAT',$/;"	v
 metavar	common/log.py	/^               metavar='PATH',$/;"	v
+msg	engines/dap/pipeline_manager.py	/^    msg = "hello world"$/;"	v
 msgCmd	tools/data_generator.py	/^msgCmd = "publish_derived_data"$/;"	v
 msgCount	tools/data_generator.py	/^    msgCount = args.count$/;"	v
 msgCount	tools/data_generator.py	/^msgCount = 10$/;"	v
@@ -132,18 +221,39 @@ msgbusUrl	tools/data_generator.py	/^    msgbusUrl = args.url$/;"	v
 msgbusUrl	tools/data_generator.py	/^msgbusUrl = "amqp:\/\/guest:guest@localhost:5672\/%2f"$/;"	v
 new_derived_data	tools/data_generator.py	/^def new_derived_data():$/;"	f
 new_derived_data_msg	tools/data_generator.py	/^def new_derived_data_msg(objId, msgType, data=None):$/;"	f
+num_data_pl	engines/dap/pipeline_manager.py	/^    num_data_pl = plm.get_num_of_pipelines(constants.RT_DATA)$/;"	v
+num_free_data_pl	engines/dap/pipeline_manager.py	/^    num_free_data_pl = plm.get_num_of_free_pipelines(constants.RT_DATA)$/;"	v
 parse	common/config.py	/^def parse(args):$/;"	f
+pipeline_opts	engines/dap/pipeline_manager.py	/^pipeline_opts = [$/;"	v
+pl	engines/dap/pipeline_manager.py	/^    pl = plm.allocate_pipeline(constants.RT_DATA, entry_call, exit_call)$/;"	v
+plm	engines/dap/pipeline_manager.py	/^    plm = DataAnalyticPipelineManager.get_instance($/;"	v
+prepare	engines/dap/compute_pipe.py	/^    def prepare(self, context, message):$/;"	m	class:ComputePipe
+prepareDAP	engines/data_analytic.py	/^    def prepareDAP(self):$/;"	m	class:MarsDataAnalyticService
+prepareMOM	engines/data_analytic.py	/^    def prepareMOM(self):$/;"	m	class:MarsDataAnalyticService
+prepareMessageHandlers	engines/data_analytic.py	/^    def prepareMessageHandlers(self):$/;"	m	class:MarsDataAnalyticService
 process	common/log.py	/^    def process(self, msg, kwargs):$/;"	m	class:ContextAdapter
 publishInterval	tools/data_generator.py	/^    publishInterval = args.interval$/;"	v
 publishInterval	tools/data_generator.py	/^publishInterval = 1 # second$/;"	v
 publish_message	tools/data_generator.py	/^def publish_message():$/;"	f
+queue_message	engines/dap/pipeline_manager.py	/^    def queue_message(self, pipeline_type, message):$/;"	m	class:DataAnalyticPipelineManager
 routingKey	tools/data_generator.py	/^routingKey = "data.derived"$/;"	v
+run	engines/dap/pipeline.py	/^    def run(self, args):$/;"	m	class:DataAnalyticPipeline
+set_callbacks	engines/dap/pipeline.py	/^    def set_callbacks(self, entry_callback, exit_callback):$/;"	m	class:DataAnalyticPipeline
 set_defaults	common/log.py	/^def set_defaults(logging_context_format_string):$/;"	f
 setup	common/log.py	/^def setup(product_name):$/;"	f
+setup_logging	common/config.py	/^def setup_logging(conf):$/;"	f
 short	common/log.py	/^                short='d',$/;"	v
 short	common/log.py	/^                short='v',$/;"	v
 start	engines/data_analytic.py	/^    def start(self):$/;"	m	class:MarsDataAnalyticService
+start_processing	engines/dap/pipeline_manager.py	/^    def start_processing(self, pipeline_type):$/;"	m	class:DataAnalyticPipelineManager
 stop	engines/data_analytic.py	/^    def stop(self):$/;"	m	class:MarsDataAnalyticService
+thread_consume_callback	engines/data_channel.py	/^    def thread_consume_callback(self, arg):$/;"	m	class:DataChannelHandler
+thread_handle_exception	engines/data_channel.py	/^    def thread_handle_exception(self, request, exc):$/;"	m	class:DataChannelHandler
+thread_handle_result	engines/data_channel.py	/^    def thread_handle_result(self, request, result):$/;"	m	class:DataChannelHandler
+thread_wait	engines/dap/pipeline_manager.py	/^    def thread_wait(self, pipeline_type, block=True, anyone=False):$/;"	m	class:DataAnalyticPipelineManager
 type	tools/data_generator.py	/^                           type=int,$/;"	v
 warn	common/log.py	/^    warn = logging.LoggerAdapter.warning$/;"	v	class:ContextAdapter
+worker_handle_exception	engines/dap/pipeline_manager.py	/^    def worker_handle_exception(self, request, exc):$/;"	m	class:DataAnalyticPipelineManager
+worker_handle_result	engines/dap/pipeline_manager.py	/^    def worker_handle_result(self, request, result):$/;"	m	class:DataAnalyticPipelineManager
+worker_process_callback	engines/dap/pipeline_manager.py	/^    def worker_process_callback(self, args):$/;"	m	class:DataAnalyticPipelineManager
 write	common/log.py	/^    def write(self, msg):$/;"	m	class:WritableLogger

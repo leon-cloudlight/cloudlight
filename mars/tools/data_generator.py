@@ -20,7 +20,7 @@ import argparse
 # Global variables
 #
 msgbusUrl = "amqp://guest:guest@localhost:5672/%2f"
-derivedDataExchange = "derived_data_exchange"
+derivedDataExchange = "mars_derived_data_exchange"
 publishInterval = 1 # second
 msgCount = 10
 msgType = "data"
@@ -142,7 +142,7 @@ if __name__ == '__main__':
                            type=int,
                            help="Publishing interval in seconds")
     argParser.add_argument('--exch',
-                           default="derived_data_exchange",
+                           default="mars_derived_data_exchange",
                            help="Exchange name to publish to")
     argParser.add_argument('--count',
                            default=0,

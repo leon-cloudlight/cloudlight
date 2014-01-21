@@ -384,13 +384,7 @@ def _setup_logging_from_conf():
     for handler in log_root.handlers:
         # NOTE(alaski): CONF.log_format overrides everything currently.  This
         # should be deprecated in favor of context aware formatting.
-        if CONF.log_format:
-            handler.setFormatter(logging.Formatter(fmt=CONF.log_format,
-                                                   datefmt=datefmt))
-            log_root.info('Deprecated: log_format is now deprecated and will '
-                          'be removed in the next release')
-        else:
-            handler.setFormatter(ContextFormatter(datefmt=datefmt))
+        handler.setFormatter(ContextFormatter(datefmt=datefmt))
 
     if CONF.debug:
         log_root.setLevel(logging.DEBUG)

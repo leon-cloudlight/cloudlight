@@ -37,3 +37,21 @@ class Invalid(MarsException):
     def __init__(self, message=None):
         self.message = message
         super(Invalid, self).__init__()
+
+class MarsMessageError(MarsException):
+    message = _("Error happened for messagebus handler on Mars node: "
+                "%(msg)")
+
+class PlutoMessageError(MarsException):
+    message = _("Error happend for messagebus handler with Pluto node: "
+                "%(msg)")
+
+class InvalidValue(MarsException):
+    message = _("Invalid variable value: %(key) = %(value)")
+
+class MarsChannelException(MarsException):
+    message = _("Error happened on message channel %(class): %(msg)")
+
+class MarsPipelineError(MarsException):
+    message = _("Error happened in event processing pipeline: %(msg)")
+
