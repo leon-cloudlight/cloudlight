@@ -58,18 +58,7 @@ class DataAnalyticPipelineManager(object):
             Pre-allocate the pipelines as well as equip each pipeline.
         """
         self.layer = layer
-        self.pipelines_free = {
-            constants.RT_DATA: [],
-            constants.RT_EVENT: [],
-            constants.RT_ROLLUP: [],
-            constants.TIMER: [],
-        }
-        self.pipelines_in_use = {
-            constants.RT_DATA: [],
-            constants.RT_EVENT: [],
-            constants.RT_ROLLUP: [],
-            constants.TIMER: [],
-        }
+        self.pipelines_free = {}
         self.cfgs = [
             (constants.RT_DATA,
              cfg.CONF.num_of_infra_rt_data_pipelines,
@@ -89,18 +78,20 @@ class DataAnalyticPipelineManager(object):
         self.message_queues = {}
         self.dispatch_threads = {}
 
+        # Alocate the initial resources
+        # options[0]: type, options[1]: # of pipeline
+        # options[2]: # of workers
         for options in self.cfgs:
+            self.pipelines_free[options[0]] = Queue.Queue()
+            self.message_queues[options[0]] = Queue.Queue()
             self.threadpools[options[0]] = (
                 threadpool.ThreadPool(options[2]))
-            self.dispatch_threads[options[0]] = (
+            self.dispatch_threads[options[0]]['thread'] = (
                     threading.Thread(target=self.dispatch_thread,
                                      args=(options[0],)))
-            self.locks[options[0]] = threading.Lock()
-            self.message_queues[options[0]] = Queue.Queue()
+            self.dispatch_threads[options[0]]['quit'] = False
             for i in range(options[1]):
-                LOG.debug(_("create %d %s pipelines in %s layer") %
-                          (options[1], options[0], self.layer))
-                self.pipelines_free[options[0]].append(
+                self.pipelines_free[options[0]].put(
                     pipeline.createPipelineFactory(pipeline_type=options[0],
                                                    layer=self.layer))
 
@@ -123,40 +114,60 @@ class DataAnalyticPipelineManager(object):
                 return options[1]
 
     def get_num_of_free_pipelines(self, pipeline_type):
-        return len(self.pipelines_free[pipeline_type])
+        return self.pipelines_free[pipeline_type].qsize()
 
     def allocate_pipeline(self, pipeline_type):
-        pl = None
-        if len(self.pipelines_free[pipeline_type]) != 0:
-            pl = self.pipelines_free[pipeline_type].pop()
-            self.pipelines_in_use[pipeline_type].append(pl)
-        if not pl is None:
+        """Method to allocate a pipeline and assemble it with pipes
+        """
+        try:
+            pl = self.pipelines_free[pipeline_type].get(timeout=30)
+            if pl is None:
+                raise exp.MarsPipelinesError(
+                        msg=_("Invalid pipeline instance")
             pl.assemble_compute_pipes()
-        return pl
+            return pl
+        except Queue.Empty:
+            # exception due to empty pipeline slots [timeout]
+            msg = "Failed to allocate the free pipeline[%s]" % pipeline_type;
+            LOG.error(_("%s" % msg))
+            raise exp.MarsPipelinesError(msg=msg)
 
     def free_pipeline(self, pipeline):
-        pl_type = pipeline.pipeline_type
-        self.pipelines_in_use[pl_type].remove(pipeline)
-        self.pipelines_free[pl_type].append(pipeline)
+        """Method to free the pipeline object and dismiss the
+        compute pipes plugged into it
+        """
+
+        if not pipeline is None:
+            pl_type = pipeline.pipeline_type
+            pipeline.dismiss_compute_pipes()
+            self.pipelines_free[pl_type].put(pipeline)
 
     def start_processing(self, pipeline_type):
         """Method to poll the messages from queue and process
            it by one of worker threads
         """
-        self.dispatch_threads[pipeline_type].start()
+        self.dispatch_threads[pipeline_type]['thread'].start()
+
+    def stop_processing(self, pipeline_type):
+        """Method to stop polling the messages processing
+        """
+        self.dispatch_threads[pipeline_type]['quit'] = True
+        self.dispatch_threads[pipeline_type]['thread'].join(timeout=30)
 
     def dispatch_thread(self, args):
-        LOG.debug(_("dispatch_thread: %r" % args))
+        """Dispatch thread is used to poll the pipeline workers
+        """
+        LOG.debug(_("dispatch_thread: starts polling pipeline[%s]" % args))
         pipeline_type = args
-        while True:
+        while not self.dispatch_threads[pipeline_type]['quit']:
             try:
                 self.threadpools[pipeline_type].poll(block=False)
                 time.sleep(0.5)
             except threadpool.NoResultsPending:
                 time.sleep(1)
 
-    def queue_message(self, pipeline_type, message):
-        """Method to queue the received message into the thread pool
+    def dispatch_message(self, pipeline_type, message):
+        """Method to dispatch the received message into the thread pool
             to process it along the pipeline
         """
         params = [{ "pipeline_type": pipeline_type,
@@ -172,11 +183,8 @@ class DataAnalyticPipelineManager(object):
 
     def worker_process_callback(self, args):
         LOG.debug(_("pipeline thread callback for processing message"))
-        pipeline_type = args['pipeline_type']
-        msg = args['message']
-        pl = self.allocate_pipeline(pipeline_type)
-        # TODO: process the message
-        time.sleep(1)
+        pl = self.allocate_pipeline(args['pipeline_type'])
+        pl.run(args['message'])
         result = { 'pipeline_type': args['pipeline_type'],
                    'pipeline': pl }
         return result
@@ -184,58 +192,17 @@ class DataAnalyticPipelineManager(object):
     def worker_handle_result(self, request, result):
         LOG.debug(_("pipeline thread [#%s] callback for handling result" %
                     (request.requestID,)))
-        LOG.debug(_("result: %r " % result))
         pipeline_type = result['pipeline_type']
-        with self.locks[pipeline_type]:
+        if not result['pipeline'] is None:
             self.free_pipeline(result['pipeline'])
 
     def worker_handle_exception(self, request, exc):
         LOG.debug(_("pipeline thread callback for handling exception"))
 
         pipeline_type = result['pipeline_type']
-        with self.locks[pipeline_type]:
+        if not result['pipeline'] is None:
             self.free_pipeline(result['pipeline'])
-
-    def thread_wait(self, pipeline_type, block=True, anyone=False):
-        self.threadpools[pipeline_type].poll(block=block, anyone=anyone)
-
-
-
-# testing
-if __name__ == '__main__':
-    plm = DataAnalyticPipelineManager.get_instance(
-           layer=constants.INFRA)
-    num_data_pl = plm.get_num_of_pipelines(constants.RT_DATA)
-    num_free_data_pl = plm.get_num_of_free_pipelines(constants.RT_DATA)
-    print "1 ------ "
-    print "num of rt_data pipeline: %d (%d)" % (num_free_data_pl, num_data_pl)
-
-    def entry_call(pl, msg):
-        print "entry_call: enter the pipeline[%s]" % (pl.pipeline_type)
-
-    def exit_call(pl, pipe_result):
-        print "exit_call: exit the pipeline[%s]" % (pl.pipeline_type)
-
-    pl = plm.allocate_pipeline(constants.RT_DATA, entry_call, exit_call)
-    print "allocate one pipeline: %s" % (str(pl))
-
-    num_free_data_pl = plm.get_num_of_free_pipelines(constants.RT_DATA)
-    print "2 ------ "
-    print "num of rt_data pipeline: %d (%d)" % (num_free_data_pl, num_data_pl)
-    print "num of pipes: %d" % (pl.num_of_pipes)
-
-    print "3 ----- "
-    print "run the pipeline"
-    msg = "hello world"
-    pl.run(msg)
-
-    plm.free_pipeline(pl)
-    num_free_data_pl = plm.get_num_of_free_pipelines(constants.RT_DATA)
-    print "3 ------ "
-    print "num of rt_data pipeline: %d (%d)" % (num_free_data_pl, num_data_pl)
-
-
-
+        raise exp.MarsPipelineError(msg=_("%s" % exc))
 
 
 

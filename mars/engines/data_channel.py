@@ -39,14 +39,10 @@ def createChannelHandlerFactory(channel_type):
 class ChannelHandler(object):
     """Abstract class for AMQP connections
     """
-
-    def __init___(self):
-        pass
-
     def __del__(self):
         self.clean()
 
-    def cleanup():
+    def clean():
         pass
 
     def thread_consume_callback(self, args):
@@ -70,8 +66,9 @@ class ChannelHandler(object):
         LOG.debug(_("Queue the data message on pipeline"))
         #TODO: build message object and handle the message according
         # to its type
-        self.plmgr.queue_message(constants.RT_DATA, msg)
+        self.plmgr.dispatch_message(constants.RT_DATA, msg)
         return 0
+
 
 class DataChannelHandler(ChannelHandler):
     """Class for message handler wrapper on data channel
@@ -82,6 +79,7 @@ class DataChannelHandler(ChannelHandler):
 
     def setup_amqp_channel(self):
         """Method to setup the AMQP connections/channels/queues
+        for data channel (derived data + derived event)
         """
         try:
             parameters = pika.URLParameters(cfg.CONF.amqp_url_mars)
@@ -122,6 +120,8 @@ class DataChannelHandler(ChannelHandler):
         """
         if self.channel: self.channel.close()
         if self.conn_local: self.conn_local.close()
+        self.plmgr.stop_processing(constants.RT_DATA)
+        self.plmgr.stop_processing(constants.RT_EVENT)
 
     def thread_consume_callback(self, args):
         LOG.debug(_("thread callback for data channel is executed"))
@@ -166,7 +166,7 @@ class TimerChannelHandler(ChannelHandler):
 
             # create channel/exchange/queue for data analytic processing
             self.channel = self.conn_local.channel()
-            self.exch_derived_data =  self.channel.exchange_declare(
+            self.exch_timer =  self.channel.exchange_declare(
                         exchange=constants.MARS_MSG_EXCHANGE_TIMER,
                         exchange_type="topic",
                         durable=True,
@@ -199,6 +199,8 @@ class TimerChannelHandler(ChannelHandler):
         """
         if self.channel: self.channel.close()
         if self.conn_local: self.conn_local.close()
+        self.plmgr.stop_processing(constants.TIMER)
+        self.plmgr.stop_processing(constants.RT_ROLLUP)
 
     def thread_consume_callback(self, args):
         LOG.debug(_("thread callback for timer channel is executed"))
@@ -215,6 +217,7 @@ class TimerChannelHandler(ChannelHandler):
                 no_ack=False,
                 consumer_tag="timer_event")
 
+        #TODO
         self.plmgr.start_processing(constants.RT_DATA)
 
         self.channel.start_consuming()
@@ -242,15 +245,12 @@ class ControlChannelHandler(ChannelHandler):
             parameters = pika.URLParameters(cfg.CONF.amqp_url_pluto)
             self.conn_local = pika.BlockingConnection(parameters)
 
-            # create channel/exchange/queue for data analytic processing
             self.channel = self.conn_local.channel()
-            self.exch_derived_data =  self.channel.exchange_declare(
+            self.exch_control =  self.channel.exchange_declare(
                         exchange=constants.PLUTO_MSG_EXCHANGE_CTRL,
                         exchange_type="direct",
                         durable=True,
                         auto_delete=False)
-            # rollup and timer messages are multiplexed on the same
-            # channel. Create two queues to handle them separately.
             result = self.channel.queue_declare(
                         queue=constants.MARS_MSG_QUEUE_CTRL,
                         exclusive=True)
@@ -280,6 +280,7 @@ class ControlChannelHandler(ChannelHandler):
                 no_ack=False,
                 consumer_tag="control")
 
+        # TODO
         self.plmgr.start_processing(constants.RT_DATA)
 
         self.channel.start_consuming()

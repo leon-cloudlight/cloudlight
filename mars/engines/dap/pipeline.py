@@ -66,6 +66,11 @@ class DataAnalyticPipeline(object):
         """
         pass
 
+    def dismiss_compute_pipes(self):
+        """Abastract method to free the pipeline
+        """
+        pass
+
     def add_compute_pipe(self, pipe):
         """Method to equip a index compute pipe into this pipeline (append)
         """

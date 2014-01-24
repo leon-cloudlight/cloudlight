@@ -16,10 +16,14 @@ MARS_MSG_QUEUE_CTRL = 'mars_control_queue'
 
 
 # DAP constants
-RT_DATA = 'mars_rt_data'
-RT_EVENT = 'mars_rt_event'
+RT_DATA = 'rt_data'
+RT_EVENT = 'rt_event'
 RT_ROLLUP = 'mars_rt_rollup'
 TIMER = 'mars_timer'
+CONTROL = 'control'
+ALERT = 'alert'
+INDEX_COMPUTE = 'index_compute'
+
 INFRA = 'mars_infrastructure'
 
 # Pipeline constants
